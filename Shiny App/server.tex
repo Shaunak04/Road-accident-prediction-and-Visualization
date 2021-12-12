@@ -1,0 +1,2214 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={server.R},
+  pdfauthor={shaun},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{server.R}
+\author{shaun}
+\date{2021-12-12}
+
+\begin{document}
+\maketitle
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#For Shiny integration}
+\FunctionTok{library}\NormalTok{(shiny)}
+\FunctionTok{library}\NormalTok{(knitr)}
+\CommentTok{\#Libraries for prediction model}
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --
+\end{verbatim}
+
+\begin{verbatim}
+## v ggplot2 3.3.5     v purrr   0.3.4
+## v tibble  3.1.3     v dplyr   1.0.7
+## v tidyr   1.1.4     v stringr 1.4.0
+## v readr   1.4.0     v forcats 0.5.1
+\end{verbatim}
+
+\begin{verbatim}
+## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(caret)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: lattice
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'caret'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:purrr':
+## 
+##     lift
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(randomForest)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## randomForest 4.6-14
+\end{verbatim}
+
+\begin{verbatim}
+## Type rfNews() to see new features/changes/bug fixes.
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'randomForest'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:dplyr':
+## 
+##     combine
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:ggplot2':
+## 
+##     margin
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(owmr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## owmr 0.8.2
+##    another crazy way to talk to OpenWeatherMap's API
+##    Documentation: type ?owmr or https://crazycapivara.github.io/owmr/
+##    Issues, notes and bleeding edge: https://github.com/crazycapivara/owmr/
+## 
+## It is recommended that you store your api key in an environment variable called OWM_API_KEY.
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'owmr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:purrr':
+## 
+##     flatten
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Prediction using Random Forest}
+
+\NormalTok{key }\OtherTok{=} \StringTok{"71bc0174c0bc055562e89f563918d2a1"}
+\FunctionTok{owmr\_settings}\NormalTok{(key)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## It is recommended that you store your api key in an environment variable called OWM_API_KEY.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_pred }\OtherTok{=} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/final\_severity.csv"}\NormalTok{)}
+\NormalTok{data\_pred }\OtherTok{=}\NormalTok{ data\_pred[,}\DecValTok{2}\SpecialCharTok{:}\DecValTok{22}\NormalTok{]}
+\CommentTok{\#View(data\_pred)}
+\FunctionTok{colnames}\NormalTok{(data\_pred)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] "State..UT"                       "state_code"                     
+##  [3] "Defective.brakes"                "Defective.Steering"             
+##  [5] "Punctured.burst.Tyres"           "Bald.Tyres"                     
+##  [7] "Worn.out.Tyres"                  "Other.serious.mechanical.defect"
+##  [9] "normal"                          "mist_fog"                       
+## [11] "cloudy"                          "rain"                           
+## [13] "flooding"                        "hail_sleet"                     
+## [15] "snow"                            "dust_storm"                     
+## [17] "Surfaced.Roads"                  "Metalled.Roads"                 
+## [19] "Pucca.road..Normal.Road."        "Kutcha.Roads"                   
+## [21] "Dry.road"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{choices\_col }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{()}
+
+
+
+
+\NormalTok{road }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\AttributeTok{file =} \StringTok{"data/injured1.csv"}\NormalTok{)}
+
+\CommentTok{\# Define server logic required to draw state.filter histogram}
+\FunctionTok{shinyServer}\NormalTok{(}\ControlFlowTok{function}\NormalTok{(input, output, session) \{}
+  \FunctionTok{observe}\NormalTok{(\{}
+    \FunctionTok{updateCheckboxGroupInput}\NormalTok{(}
+\NormalTok{      session,}
+      \StringTok{\textquotesingle{}state.checkbox.filter\textquotesingle{}}\NormalTok{,}
+      \AttributeTok{choiceNames =} \FunctionTok{as.character}\NormalTok{(by\_state\_order}\SpecialCharTok{$}\NormalTok{state\_name),}
+      \AttributeTok{choiceValues =}\NormalTok{ by\_state\_order}\SpecialCharTok{$}\NormalTok{state\_code,}
+     \AttributeTok{selected =} \ControlFlowTok{if}\NormalTok{ (input}\SpecialCharTok{$}\NormalTok{all.none)}
+\NormalTok{        by\_state\_order}\SpecialCharTok{$}\NormalTok{state\_code}
+\NormalTok{    )}
+\NormalTok{  \})}
+\NormalTok{  checkbox\_state\_filter }\OtherTok{\textless{}{-}} \FunctionTok{reactive}\NormalTok{(\{}
+\NormalTok{    state\_group }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{filter}\NormalTok{(state\_code }\SpecialCharTok{\%in\%}\NormalTok{ input}\SpecialCharTok{$}\NormalTok{state.checkbox.filter)}
+    
+\NormalTok{  \})}
+  
+  
+\NormalTok{  df3 }\OtherTok{\textless{}{-}} \FunctionTok{reactive}\NormalTok{(\{}
+\NormalTok{    state\_group }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{filter}\NormalTok{(state\_code }\SpecialCharTok{\%in\%}\NormalTok{ input}\SpecialCharTok{$}\NormalTok{state.checkbox.filter)}
+    
+\NormalTok{  \})}
+  
+  
+  
+  
+\NormalTok{  df2 }\OtherTok{\textless{}{-}} \FunctionTok{reactive}\NormalTok{(\{}
+\NormalTok{    cities\_dataset }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{filter}\NormalTok{(state\_code }\SpecialCharTok{\%in\%}\NormalTok{ input}\SpecialCharTok{$}\NormalTok{state.checkbox.filter)}
+    
+\NormalTok{  \})}
+  
+
+ 
+  \DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#}
+  \CommentTok{\# TAB1 graphs and outputs{-} Start}
+  \DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#}
+  
+  \CommentTok{\# Leaflet Map Plot Generation}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab1\_leaflet\_map }\OtherTok{\textless{}{-}} \FunctionTok{renderLeaflet}\NormalTok{(\{}
+    
+    \CommentTok{\# If All States option is selected in the dropdown}
+    \ControlFlowTok{if}\NormalTok{ (input}\SpecialCharTok{$}\NormalTok{tab1\_dropdown\_states }\SpecialCharTok{==} \StringTok{"All"}\NormalTok{) \{}
+      
+\NormalTok{      leaflet.map }\OtherTok{\textless{}{-}} \FunctionTok{leaflet}\NormalTok{()  }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{addTiles}\NormalTok{()}
+      
+      \FunctionTok{names}\NormalTok{(spllitted\_cities) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{        purrr}\SpecialCharTok{::}\FunctionTok{walk}\NormalTok{(}\ControlFlowTok{function}\NormalTok{(city.data.frame) \{}
+\NormalTok{          leaflet.map }\OtherTok{\textless{}\textless{}{-}}\NormalTok{ leaflet.map }\SpecialCharTok{\%\textgreater{}\%}
+            \CommentTok{\# Marker HTML layout to show on the popup}
+            \FunctionTok{addMarkers}\NormalTok{(}
+              \AttributeTok{data =}\NormalTok{ spllitted\_cities[[city.data.frame]],}
+              \AttributeTok{lng =}  \SpecialCharTok{\textasciitilde{}}\NormalTok{ lng,}
+              \AttributeTok{lat =}  \SpecialCharTok{\textasciitilde{}}\NormalTok{ lat,}
+              \AttributeTok{popup =} \FunctionTok{paste}\NormalTok{(}
+                \StringTok{"\textless{}h4\textgreater{}"}\NormalTok{,}
+\NormalTok{                spllitted\_cities[[city.data.frame]]}\SpecialCharTok{$}\NormalTok{state\_name,}
+                \StringTok{"\textless{}/h4\textgreater{}"}\NormalTok{,}
+                \StringTok{"\textless{}b\textgreater{}persons\_killed\_2014:\textless{}/b\textgreater{}"}\NormalTok{,}
+\NormalTok{                spllitted\_cities[[city.data.frame]]}\SpecialCharTok{$}\NormalTok{persons\_killed\_2014,}
+                \StringTok{"\textless{}br\textgreater{}"}\NormalTok{,}
+                \StringTok{"\textless{}b\textgreater{}persons\_killed\_2015:\textless{}/b\textgreater{}"}\NormalTok{,}
+\NormalTok{                spllitted\_cities[[city.data.frame]]}\SpecialCharTok{$}\NormalTok{persons\_killed\_2015,}
+                \StringTok{"\textless{}br\textgreater{}"}\NormalTok{,}
+                \StringTok{"\textless{}b\textgreater{}persons\_killed\_2016:\textless{}/b\textgreater{}"}\NormalTok{,}
+\NormalTok{                spllitted\_cities[[city.data.frame]]}\SpecialCharTok{$}\NormalTok{persons\_killed\_2016,}
+                \StringTok{"\textless{}br\textgreater{}"}\NormalTok{,}
+                \StringTok{"\textless{}b\textgreater{}persons\_killed\_2017:\textless{}/b\textgreater{}"}\NormalTok{,}
+\NormalTok{                spllitted\_cities[[city.data.frame]]}\SpecialCharTok{$}\NormalTok{persons\_killed\_2017}
+               
+\NormalTok{              ),}
+              \AttributeTok{group =}\NormalTok{ city.data.frame,}
+              \AttributeTok{clusterOptions =} \FunctionTok{markerClusterOptions}\NormalTok{(}\AttributeTok{removeOutsideVisibleBounds =}\NormalTok{ F),}
+              \AttributeTok{labelOptions =} \FunctionTok{labelOptions}\NormalTok{(}\AttributeTok{noHide =}\NormalTok{ F,}
+                                          \AttributeTok{direction =} \StringTok{\textquotesingle{}auto\textquotesingle{}}\NormalTok{)}
+\NormalTok{            )}
+\NormalTok{        \})}
+      
+\NormalTok{      leaflet.map}
+      
+\NormalTok{    \} }\ControlFlowTok{else}\NormalTok{\{}
+\NormalTok{      states\_dataset\_filtered }\OtherTok{\textless{}{-}}
+        \FunctionTok{filter}\NormalTok{(states\_dataset,}
+\NormalTok{               states\_dataset}\SpecialCharTok{$}\NormalTok{state\_code }\SpecialCharTok{==}\NormalTok{ input}\SpecialCharTok{$}\NormalTok{tab1\_dropdown\_states)}
+\NormalTok{      leaflet.map }\OtherTok{\textless{}{-}} \FunctionTok{leaflet}\NormalTok{()  }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{addTiles}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{addMarkers}\NormalTok{(}
+          \AttributeTok{data =}\NormalTok{ states\_dataset\_filtered,}
+          \AttributeTok{lng =}  \SpecialCharTok{\textasciitilde{}}\NormalTok{ lng,}
+          \AttributeTok{lat =}  \SpecialCharTok{\textasciitilde{}}\NormalTok{ lat,}
+          \AttributeTok{popup =} \FunctionTok{paste}\NormalTok{(}
+            \StringTok{"\textless{}h4\textgreater{}"}\NormalTok{,}
+\NormalTok{            states\_dataset\_filtered}\SpecialCharTok{$}\NormalTok{state\_name,}
+            \StringTok{"\textless{}/h4\textgreater{}"}\NormalTok{,}
+            \StringTok{"\textless{}b\textgreater{}persons\_killed\_2014:\textless{}/b\textgreater{}"}\NormalTok{,}
+\NormalTok{            states\_dataset\_filtered}\SpecialCharTok{$}\NormalTok{persons\_killed\_2014,}
+            \StringTok{"\textless{}br\textgreater{}"}\NormalTok{,}
+            \StringTok{"\textless{}b\textgreater{}persons\_killed\_2015:\textless{}/b\textgreater{}"}\NormalTok{,}
+\NormalTok{            states\_dataset\_filtered}\SpecialCharTok{$}\NormalTok{persons\_killed\_2015,}
+            \StringTok{"\textless{}br\textgreater{}"}\NormalTok{,}
+            \StringTok{"\textless{}b\textgreater{}persons\_killed\_2016:\textless{}/b\textgreater{}"}\NormalTok{,}
+\NormalTok{            states\_dataset\_filtered}\SpecialCharTok{$}\NormalTok{persons\_killed\_2016,}
+            \StringTok{"\textless{}br\textgreater{}"}\NormalTok{,}
+            \StringTok{"\textless{}b\textgreater{}persons\_killed\_2017:\textless{}/b\textgreater{}"}\NormalTok{,}
+\NormalTok{            states\_dataset\_filtered}\SpecialCharTok{$}\NormalTok{persons\_killed\_2017}
+          
+\NormalTok{          )}
+\NormalTok{        )}
+      
+\NormalTok{      leaflet.map}
+      
+\NormalTok{    \}}
+\NormalTok{  \})}
+  
+  \CommentTok{\# Total Cities Value Box output generation}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab1\_valuebox\_persons\_killed\_2014 }\OtherTok{\textless{}{-}} \FunctionTok{renderValueBox}\NormalTok{(\{}
+    \ControlFlowTok{if}\NormalTok{ (input}\SpecialCharTok{$}\NormalTok{tab1\_dropdown\_states }\SpecialCharTok{==} \StringTok{"All"}\NormalTok{) \{}
+      \FunctionTok{valueBox}\NormalTok{(}
+        \FunctionTok{sum}\NormalTok{(states\_dataset}\SpecialCharTok{$}\NormalTok{persons\_killed\_2014),}
+        \StringTok{"Total Persons Killed in 2014"}\NormalTok{,}
+        \AttributeTok{color =} \StringTok{"purple"}\NormalTok{,}
+        \AttributeTok{width =} \DecValTok{6}
+\NormalTok{      )}
+\NormalTok{    \} }\ControlFlowTok{else}\NormalTok{\{}
+\NormalTok{      states\_dataset\_filtered }\OtherTok{\textless{}{-}} \FunctionTok{filter}\NormalTok{(state\_group, state\_group}\SpecialCharTok{$}\NormalTok{state\_code }\SpecialCharTok{==}\NormalTok{ input}\SpecialCharTok{$}\NormalTok{tab1\_dropdown\_states)}
+      \FunctionTok{valueBox}\NormalTok{(states\_dataset\_filtered}\SpecialCharTok{$}\NormalTok{persons\_killed\_2014,}
+               \StringTok{"Total Persons Killed in 2014"}\NormalTok{,}
+               \AttributeTok{color =} \StringTok{"purple"}\NormalTok{,}
+               \AttributeTok{width =} \DecValTok{6}\NormalTok{)}
+\NormalTok{    \}}
+\NormalTok{  \})}
+  
+  \CommentTok{\# Total Popuation Value Box output generation}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab1\_valuebox\_persons\_killed\_2015 }\OtherTok{\textless{}{-}} \FunctionTok{renderValueBox}\NormalTok{(\{}
+    \ControlFlowTok{if}\NormalTok{ (input}\SpecialCharTok{$}\NormalTok{tab1\_dropdown\_states }\SpecialCharTok{==} \StringTok{"All"}\NormalTok{) \{}
+      \FunctionTok{valueBox}\NormalTok{(}
+        \FunctionTok{sum}\NormalTok{(states\_dataset}\SpecialCharTok{$}\NormalTok{persons\_killed\_2015),}
+        \StringTok{"Total Persons Killed in 2015"}\NormalTok{,}
+        \AttributeTok{color =} \StringTok{"orange"}\NormalTok{,}
+        \AttributeTok{width =} \DecValTok{6}
+\NormalTok{      )}
+\NormalTok{    \} }\ControlFlowTok{else}\NormalTok{\{}
+\NormalTok{      states\_dataset\_filtered }\OtherTok{\textless{}{-}} \FunctionTok{filter}\NormalTok{(state\_group, state\_group}\SpecialCharTok{$}\NormalTok{state\_code }\SpecialCharTok{==}\NormalTok{ input}\SpecialCharTok{$}\NormalTok{tab1\_dropdown\_states)}
+      \FunctionTok{valueBox}\NormalTok{(states\_dataset\_filtered}\SpecialCharTok{$}\NormalTok{persons\_killed\_2015,}
+               \StringTok{"Total Persons Killed in 2015"}\NormalTok{,}
+               \AttributeTok{color =} \StringTok{"orange"}\NormalTok{,}
+               \AttributeTok{width =} \DecValTok{6}\NormalTok{)}
+\NormalTok{    \}}
+\NormalTok{  \})}
+  
+  \CommentTok{\# Total Male Population Percent Value Box output generation}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab1\_valuebox\_persons\_killed\_2016 }\OtherTok{\textless{}{-}} \FunctionTok{renderValueBox}\NormalTok{(\{}
+    \ControlFlowTok{if}\NormalTok{ (input}\SpecialCharTok{$}\NormalTok{tab1\_dropdown\_states }\SpecialCharTok{==} \StringTok{"All"}\NormalTok{) \{}
+      \FunctionTok{valueBox}\NormalTok{(}
+        \FunctionTok{sum}\NormalTok{(states\_dataset}\SpecialCharTok{$}\NormalTok{persons\_killed\_2016),}
+        \StringTok{"Total Persons Killed in 2016"}\NormalTok{,}
+        \AttributeTok{color =} \StringTok{"green"}\NormalTok{,}
+        \AttributeTok{width =} \DecValTok{6}
+\NormalTok{      )}
+\NormalTok{    \} }\ControlFlowTok{else}\NormalTok{\{}
+\NormalTok{      states\_dataset\_filtered }\OtherTok{\textless{}{-}} \FunctionTok{filter}\NormalTok{(state\_group, state\_group}\SpecialCharTok{$}\NormalTok{state\_code }\SpecialCharTok{==}\NormalTok{ input}\SpecialCharTok{$}\NormalTok{tab1\_dropdown\_states)}
+      \FunctionTok{valueBox}\NormalTok{(states\_dataset\_filtered}\SpecialCharTok{$}\NormalTok{persons\_killed\_2016,}
+               \StringTok{"Total Persons Killed in 2016"}\NormalTok{,}
+               \AttributeTok{color =} \StringTok{"green"}\NormalTok{,}
+               \AttributeTok{width =} \DecValTok{6}\NormalTok{)}
+\NormalTok{    \}}
+\NormalTok{  \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab1\_valuebox\_persons\_killed\_2017 }\OtherTok{\textless{}{-}} \FunctionTok{renderValueBox}\NormalTok{(\{}
+    \ControlFlowTok{if}\NormalTok{ (input}\SpecialCharTok{$}\NormalTok{tab1\_dropdown\_states }\SpecialCharTok{==} \StringTok{"All"}\NormalTok{) \{}
+      \FunctionTok{valueBox}\NormalTok{(}
+        \FunctionTok{sum}\NormalTok{(states\_dataset}\SpecialCharTok{$}\NormalTok{persons\_killed\_2017),}
+        \StringTok{"Total Persons Killed in 2017"}\NormalTok{,}
+        \AttributeTok{color =} \StringTok{"blue"}\NormalTok{,}
+        \AttributeTok{width =} \DecValTok{6}
+\NormalTok{      )}
+\NormalTok{    \} }\ControlFlowTok{else}\NormalTok{\{}
+\NormalTok{      states\_dataset\_filtered }\OtherTok{\textless{}{-}} \FunctionTok{filter}\NormalTok{(state\_group, state\_group}\SpecialCharTok{$}\NormalTok{state\_code }\SpecialCharTok{==}\NormalTok{ input}\SpecialCharTok{$}\NormalTok{tab1\_dropdown\_states)}
+      \FunctionTok{valueBox}\NormalTok{(states\_dataset\_filtered}\SpecialCharTok{$}\NormalTok{persons\_killed\_2017,}
+               \StringTok{"Total Persons Killed in 2017"}\NormalTok{,}
+               \AttributeTok{color =} \StringTok{"blue"}\NormalTok{,}
+               \AttributeTok{width =} \DecValTok{6}\NormalTok{)}
+\NormalTok{    \}}
+\NormalTok{  \})}
+  
+  
+  
+  \CommentTok{\# Polar Plot output generation using Highcharter Library}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab1\_polar\_plot }\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+    \ControlFlowTok{if}\NormalTok{ (input}\SpecialCharTok{$}\NormalTok{tab1\_dropdown\_states }\SpecialCharTok{==} \StringTok{"All"}\NormalTok{) \{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}} \FunctionTok{highchart}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_chart}\NormalTok{(}\AttributeTok{polar =} \ConstantTok{TRUE}\NormalTok{)  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_title}\NormalTok{(}
+          \AttributeTok{text =} \StringTok{"\textless{}b\textgreater{}Number of Persons Injured in:\textless{}/b\textgreater{}"}\NormalTok{,}\AttributeTok{align =} \StringTok{"center"}\NormalTok{)}\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}
+          \AttributeTok{categories =} \FunctionTok{c}\NormalTok{(}
+            \StringTok{"2014"}\NormalTok{,}
+            \StringTok{"2015"}\NormalTok{,}
+            \StringTok{"2016"}\NormalTok{,}
+            \StringTok{"2017"}
+\NormalTok{          ),}
+          \AttributeTok{tickmarkPlacement =} \StringTok{"on"}\NormalTok{,}
+          \AttributeTok{lineWidth =} \DecValTok{0}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_yAxis}\NormalTok{(}
+          \AttributeTok{gridLineInterpolation =} \StringTok{"polygon"}\NormalTok{,}
+          \AttributeTok{lineWidth =} \DecValTok{0}\NormalTok{,}
+          \AttributeTok{min =} \DecValTok{0}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_series}\NormalTok{(}
+          \FunctionTok{list}\NormalTok{(}
+            \AttributeTok{name =}  \StringTok{"All States"}\NormalTok{,}
+            \AttributeTok{data =} \FunctionTok{c}\NormalTok{(}
+              \FunctionTok{sum}\NormalTok{(states\_dataset}\SpecialCharTok{$}\NormalTok{persons\_injured\_2014),}
+              \FunctionTok{sum}\NormalTok{(states\_dataset}\SpecialCharTok{$}\NormalTok{persons\_injured\_2015),}
+              \FunctionTok{sum}\NormalTok{(states\_dataset}\SpecialCharTok{$}\NormalTok{persons\_injured\_2016),}
+              \FunctionTok{sum}\NormalTok{(states\_dataset}\SpecialCharTok{$}\NormalTok{persons\_injured\_2017)}
+\NormalTok{            ),}
+            \AttributeTok{pointPlacement =} \StringTok{"on"}\NormalTok{,}
+            \AttributeTok{colorByPoint =} \ConstantTok{TRUE}\NormalTok{,}
+            \AttributeTok{type =} \StringTok{"column"}\NormalTok{,}
+            \AttributeTok{colors =} \FunctionTok{c}\NormalTok{(}\StringTok{"\#F00"}\NormalTok{, }\StringTok{"\#0F0"}\NormalTok{, }\StringTok{"\#00F"}\NormalTok{, }\StringTok{"\#F0F"}\NormalTok{)}
+\NormalTok{          )}
+\NormalTok{        )}
+      
+\NormalTok{      hc}
+\NormalTok{    \} }\ControlFlowTok{else}\NormalTok{\{}
+\NormalTok{      states\_dataset\_filtered }\OtherTok{\textless{}{-}} \FunctionTok{filter}\NormalTok{(state\_group, state\_group}\SpecialCharTok{$}\NormalTok{state\_code }\SpecialCharTok{==}\NormalTok{ input}\SpecialCharTok{$}\NormalTok{tab1\_dropdown\_states)}
+\NormalTok{      hc }\OtherTok{\textless{}{-}} \FunctionTok{highchart}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_chart}\NormalTok{(}\AttributeTok{polar =} \ConstantTok{TRUE}\NormalTok{)  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_title}\NormalTok{(}
+          \AttributeTok{text =} \StringTok{"\textless{}b\textgreater{}Number of Persons Injured in:\textless{}/b\textgreater{}"}\NormalTok{,}\AttributeTok{align =} \StringTok{"center"}\NormalTok{)}\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}
+          \AttributeTok{categories =} \FunctionTok{c}\NormalTok{(}
+            \StringTok{"2014"}\NormalTok{,}
+            \StringTok{"2015"}\NormalTok{,}
+            \StringTok{"2016"}\NormalTok{,}
+            \StringTok{"2017"}
+\NormalTok{          ),}
+          \AttributeTok{tickmarkPlacement =} \StringTok{"on"}\NormalTok{,}
+          \AttributeTok{lineWidth =} \DecValTok{0}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_yAxis}\NormalTok{(}
+          \AttributeTok{gridLineInterpolation =} \StringTok{"polygon"}\NormalTok{,}
+          \AttributeTok{lineWidth =} \DecValTok{0}\NormalTok{,}
+          \AttributeTok{min =} \DecValTok{0}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_series}\NormalTok{(}
+          \FunctionTok{list}\NormalTok{(}
+            \AttributeTok{name =}\NormalTok{ states\_dataset\_filtered}\SpecialCharTok{$}\NormalTok{state\_name,}
+            \AttributeTok{data =} \FunctionTok{c}\NormalTok{(}
+\NormalTok{              states\_dataset\_filtered}\SpecialCharTok{$}\NormalTok{persons\_injured\_2014,}
+\NormalTok{              states\_dataset\_filtered}\SpecialCharTok{$}\NormalTok{persons\_injured\_2015,}
+\NormalTok{              states\_dataset\_filtered}\SpecialCharTok{$}\NormalTok{persons\_injured\_2016,}
+\NormalTok{              states\_dataset\_filtered}\SpecialCharTok{$}\NormalTok{persons\_injured\_2017}
+\NormalTok{            ),}
+            \AttributeTok{pointPlacement =} \StringTok{"on"}\NormalTok{,}
+            \AttributeTok{colorByPoint =} \ConstantTok{TRUE}\NormalTok{,}
+            \AttributeTok{type =} \StringTok{"column"}\NormalTok{,}
+            \AttributeTok{colors =} \FunctionTok{c}\NormalTok{(}\StringTok{"\#F00"}\NormalTok{, }\StringTok{"\#0F0"}\NormalTok{, }\StringTok{"\#00F"}\NormalTok{, }\StringTok{"\#F0F"}\NormalTok{)}
+\NormalTok{          )}
+\NormalTok{        )}
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+  
+  \DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#}
+  \CommentTok{\# TAB1 graphs and outputs{-} End}
+  \DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#}
+  
+\DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#}
+  \CommentTok{\# TAB2 graphs and outputs{-} Start}
+\DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#}
+  
+
+\DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#}
+  \CommentTok{\# TAB2 graphs and outputs{-} End}
+\DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#}
+  
+  
+\DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#}
+  \CommentTok{\# TAB3 graphs and outputs{-} Start}
+\DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{state\_group }\OtherTok{\textless{}{-}}\NormalTok{ DT}\SpecialCharTok{::}\FunctionTok{renderDataTable}\NormalTok{(\{}
+\NormalTok{    action }\OtherTok{\textless{}{-}}\NormalTok{ DT}\SpecialCharTok{::}\FunctionTok{dataTableAjax}\NormalTok{(session, state\_group)}
+\NormalTok{    DT}\SpecialCharTok{::}\FunctionTok{datatable}\NormalTok{(}
+\NormalTok{      state\_group,}
+      \AttributeTok{options =} \FunctionTok{list}\NormalTok{(}
+        \AttributeTok{searching =}\NormalTok{ T,}
+        \AttributeTok{pageLength =} \DecValTok{15}\NormalTok{,}
+        \AttributeTok{scrollX =}\NormalTok{ T}
+\NormalTok{      ),}
+      \AttributeTok{escape =} \ConstantTok{FALSE}
+\NormalTok{    )}
+\NormalTok{  \})}
+  
+\DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#}
+  \CommentTok{\# TAB3 graphs and outputs{-} End}
+\DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#}
+  \DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#}
+  \CommentTok{\# TAB4 graphs and outputs{-} Start}
+  \DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart1 }\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ persons\_injured\_2014, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}Persons injured in 2014\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+    \CommentTok{\#else\{\}}
+\NormalTok{  \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart2 }\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{    hc }\OtherTok{\textless{}{-}}
+      \FunctionTok{hchart}\NormalTok{(state.filter,}
+             \StringTok{"column"}\NormalTok{,}
+             \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ persons\_injured\_2015, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_tooltip}\NormalTok{(}
+        \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+        \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+        \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+        \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+        \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}Persons injured in 2015\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{      ) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+    
+\NormalTok{    hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart3 }\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{    hc }\OtherTok{\textless{}{-}}
+      \FunctionTok{hchart}\NormalTok{(state.filter,}
+             \StringTok{"column"}\NormalTok{,}
+             \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ persons\_injured\_2016, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_tooltip}\NormalTok{(}
+        \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+        \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+        \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+        \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+        \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}Persons injured in 2016\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{      ) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+    
+\NormalTok{    hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart4 }\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{    hc }\OtherTok{\textless{}{-}}
+      \FunctionTok{hchart}\NormalTok{(state.filter,}
+             \StringTok{"column"}\NormalTok{,}
+             \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ persons\_injured\_2017, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_tooltip}\NormalTok{(}
+        \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+        \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+        \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+        \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+        \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}Persons injured in 2017\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{      ) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+    
+\NormalTok{    hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart5 }\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ persons\_killed\_2014, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}Persons killed in 2014\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+  
+  
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart6 }\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ persons\_killed\_2015, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}Persons killed in 2015\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart7 }\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ persons\_killed\_2016, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}Persons killed in 2016\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart8 }\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ persons\_killed\_2017, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}Persons killed in 2017\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart21 }\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{    hc }\OtherTok{\textless{}{-}}
+      \FunctionTok{hchart}\NormalTok{(state.filter,}
+             \StringTok{"column"}\NormalTok{,}
+             \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ weather\_normal, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_tooltip}\NormalTok{(}
+        \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+        \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+        \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+        \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+        \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}Weather\_condition\_fine\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{      ) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+    
+\NormalTok{    hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+  
+  
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart22}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{    hc }\OtherTok{\textless{}{-}}
+      \FunctionTok{hchart}\NormalTok{(state.filter,}
+             \StringTok{"column"}\NormalTok{,}
+             \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ weather\_mist\_fog, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_tooltip}\NormalTok{(}
+        \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+        \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+        \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+        \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+        \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}Weather\_condition\_Mist\_Foggy\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{      ) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+    
+\NormalTok{    hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+  
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart23}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{    hc }\OtherTok{\textless{}{-}}
+      \FunctionTok{hchart}\NormalTok{(state.filter,}
+             \StringTok{"column"}\NormalTok{,}
+             \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ weather\_cloudy, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_tooltip}\NormalTok{(}
+        \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+        \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+        \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+        \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+        \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}Weather\_condition\_cloudy\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{      ) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+    
+\NormalTok{    hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+ 
+\NormalTok{   output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart24}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ weather\_rain, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}Weather\_condition\_Rainy\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart25}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ weather\_flooding, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}Weather\_condition\_flooding\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart26}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ weather\_hail\_sleet, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}Weather\_condition\_Hail/Sleet\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart27}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ weather\_snow, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}Weather\_condition\_snow\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart28}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ weather\_dust\_storm, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}Weather\_condition\_dust\_storm\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart29}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{    hc }\OtherTok{\textless{}{-}}
+      \FunctionTok{hchart}\NormalTok{(state.filter,}
+             \StringTok{"column"}\NormalTok{,}
+             \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ weather\_other\_extreme\_conditions, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_tooltip}\NormalTok{(}
+        \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+        \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+        \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+        \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+        \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}weather\_other\_extreme\_conditions\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{      ) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+    
+\NormalTok{    hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart31}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ road\_surfaced\_road\_acc, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}road\_surfaced\_road\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart32}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ road\_metalled\_road\_acc, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}road\_metalled\_road\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart33}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ road\_normalpucca\_road\_acc, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}road\_normalpucca\_road\_acc\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart34}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ road\_Kutcha\_road\_acc, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}road\_Kutcha\_road\_acc\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart35}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ road\_dry\_road\_acc, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}road\_dry\_road\_acc\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart36}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ road\_wet\_road\_acc, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}road\_wet\_road\_acc\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart37}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ road\_goodsurface\_road\_acc, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}road\_goodsurface\_road\_acc\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart38}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ road\_loosesurface\_road\_acc, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}road\_loosesurface\_road\_acc\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart39}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ road\_under\_repair\_road\_acc, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}road\_under\_repair\_road\_acc\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart40}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ road\_corrugated\_road\_acc, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}road\_corrugated\_road\_acc\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart41}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ road\_slippery\_road\_acc, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}road\_slippery\_road\_acc\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart42}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ road\_snowy\_road\_acc, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}road\_snowy\_road\_acc\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart43}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ road\_muddy\_road\_acc, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}road\_muddy\_road\_acc\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart44}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ road\_oily\_road\_acc, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}road\_oily\_road\_acc\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart45}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ road\_straight\_road\_acc, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}road\_straight\_road\_acc\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart46}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ road\_slightcurve\_road\_acc, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}road\_slightcurve\_road\_acc\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart47}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ road\_flat\_road\_acc, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}road\_flat\_road\_acc\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart48}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ road\_gentleincline\_road\_acc, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}road\_gentleincline\_road\_acc\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart49}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ road\_hump\_road\_acc, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}road\_hump\_road\_acc\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart50}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ road\_dip\_road\_acc, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}road\_dip\_road\_acc\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart51}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ road\_pothole\_road\_acc, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}road\_pothole\_road\_acc\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart52}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ road\_speedbreaker\_road\_acc, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}road\_speedbreaker\_road\_acc\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart53}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ road\_steepincline\_road\_acc, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}road\_steepincline\_road\_acc\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart54}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ road\_sharpcurve\_road\_acc, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}road\_sharpcurve\_road\_acc\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart55}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ road\_earthernshoulderedgedrop\_road\_acc, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}road\_earthernshoulderedgedrop\_road\_acc\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart56}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ road\_other\_road\_acc, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}road\_other\_road\_acc\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart61}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ vehicle\_defect\_brakes, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}vehicle\_defect\_brakes\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart62}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ vehicle\_defect\_steering, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}vehicle\_defect\_steering\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart63}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ vehicle\_defect\_puncturedbursttyres, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}vehicle\_defect\_puncturedbursttyres\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart64}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ vehicle\_defect\_baldtyres, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}vehicle\_defect\_baldtyres\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart65}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ vehicle\_defect\_wornouttyres, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}vehicle\_defect\_wornouttyres\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_column\_chart66}\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hchart}\NormalTok{(state.filter,}
+               \StringTok{"column"}\NormalTok{,}
+               \FunctionTok{hcaes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ state\_name, }\AttributeTok{y =}\NormalTok{ vehicle\_defect\_othermechanical, }\AttributeTok{color =}\NormalTok{ state\_name))  }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_google}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_tooltip}\NormalTok{(}
+          \AttributeTok{crosshairs =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{backgroundColor =} \StringTok{"\#FCFFC5"}\NormalTok{,}
+          \AttributeTok{shared =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{borderWidth =} \DecValTok{5}\NormalTok{,}
+          \AttributeTok{pointFormat =} \StringTok{"\textless{}b\textgreater{}vehicle\_defect\_othermechanical\textless{}/b\textgreater{}: \{point.y\}"}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{title =} \FunctionTok{list}\NormalTok{(}\AttributeTok{text =} \StringTok{"States"}\NormalTok{))}
+      
+\NormalTok{      hc}
+\NormalTok{    \}}
+\NormalTok{  \})}
+  
+  
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_heatmap\_chart1 }\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{df3}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+      \FunctionTok{hchart}\NormalTok{(state.filter,}
+             \AttributeTok{type =} \StringTok{"treemap"}\NormalTok{,}
+             \FunctionTok{hcaes}\NormalTok{(}
+               \AttributeTok{x =}\NormalTok{ state\_name,}
+               \AttributeTok{value =}\NormalTok{ persons\_killed\_2014,}
+               \AttributeTok{color =}\NormalTok{ persons\_killed\_2014}
+\NormalTok{             ))  }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_538}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_colorAxis}\NormalTok{(}\AttributeTok{minColor =} \StringTok{"\#FF0000"}\NormalTok{, }\AttributeTok{maxColor =} \StringTok{"\#008000"}\NormalTok{)}
+\NormalTok{    \}}
+\NormalTok{  \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_heatmap\_chart2 }\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{df3}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+      \FunctionTok{hchart}\NormalTok{(state.filter,}
+             \AttributeTok{type =} \StringTok{"treemap"}\NormalTok{,}
+             \FunctionTok{hcaes}\NormalTok{(}
+               \AttributeTok{x =}\NormalTok{ state\_name,}
+               \AttributeTok{value =}\NormalTok{ persons\_killed\_2015,}
+               \AttributeTok{color =}\NormalTok{ persons\_killed\_2015}
+\NormalTok{             ))  }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_538}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_colorAxis}\NormalTok{(}\AttributeTok{minColor =} \StringTok{"\#FFFF00"}\NormalTok{, }\AttributeTok{maxColor =} \StringTok{"\#FF0000"}\NormalTok{)}
+\NormalTok{    \}}
+\NormalTok{  \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_heatmap\_chart3 }\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{df3}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+      \FunctionTok{hchart}\NormalTok{(state.filter,}
+             \AttributeTok{type =} \StringTok{"treemap"}\NormalTok{,}
+             \FunctionTok{hcaes}\NormalTok{(}
+               \AttributeTok{x =}\NormalTok{ state\_name,}
+               \AttributeTok{value =}\NormalTok{ persons\_killed\_2016,}
+               \AttributeTok{color =}\NormalTok{ persons\_killed\_2016}
+\NormalTok{             ))  }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_538}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_colorAxis}\NormalTok{(}\AttributeTok{minColor =} \StringTok{"\#0000FF"}\NormalTok{, }\AttributeTok{maxColor =} \StringTok{"\#008000"}\NormalTok{)}
+\NormalTok{    \}}
+\NormalTok{  \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_heatmap\_chart4 }\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{df3}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+      \FunctionTok{hchart}\NormalTok{(state.filter,}
+             \AttributeTok{type =} \StringTok{"treemap"}\NormalTok{,}
+             \FunctionTok{hcaes}\NormalTok{(}
+               \AttributeTok{x =}\NormalTok{ state\_name,}
+               \AttributeTok{value =}\NormalTok{ persons\_killed\_2017,}
+               \AttributeTok{color =}\NormalTok{ persons\_killed\_2017}
+\NormalTok{             ))  }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_538}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_colorAxis}\NormalTok{(}\AttributeTok{minColor =} \StringTok{"\#FFFF00"}\NormalTok{, }\AttributeTok{maxColor =} \StringTok{"\#008000"}\NormalTok{)}
+\NormalTok{    \}}
+\NormalTok{  \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_heatmap\_chart5 }\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{df3}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+      \FunctionTok{hchart}\NormalTok{(state.filter,}
+             \AttributeTok{type =} \StringTok{"treemap"}\NormalTok{,}
+             \FunctionTok{hcaes}\NormalTok{(}
+               \AttributeTok{x =}\NormalTok{ state\_name,}
+               \AttributeTok{value =}\NormalTok{ persons\_injured\_2014,}
+               \AttributeTok{color =}\NormalTok{ persons\_injured\_2014}
+\NormalTok{             ))  }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_538}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_colorAxis}\NormalTok{(}\AttributeTok{minColor =} \StringTok{"\#FF0000"}\NormalTok{, }\AttributeTok{maxColor =} \StringTok{"\#008000"}\NormalTok{)}
+\NormalTok{    \}}
+\NormalTok{  \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_heatmap\_chart6 }\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{df3}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+      \FunctionTok{hchart}\NormalTok{(state.filter,}
+             \AttributeTok{type =} \StringTok{"treemap"}\NormalTok{,}
+             \FunctionTok{hcaes}\NormalTok{(}
+               \AttributeTok{x =}\NormalTok{ state\_name,}
+               \AttributeTok{value =}\NormalTok{ persons\_injured\_2015,}
+               \AttributeTok{color =}\NormalTok{ persons\_injured\_2015}
+\NormalTok{             ))  }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_538}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_colorAxis}\NormalTok{(}\AttributeTok{minColor =} \StringTok{"\#FFFF00"}\NormalTok{, }\AttributeTok{maxColor =} \StringTok{"\#FF0000"}\NormalTok{)}
+\NormalTok{    \}}
+\NormalTok{  \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_heatmap\_chart7 }\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{df3}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+      \FunctionTok{hchart}\NormalTok{(state.filter,}
+             \AttributeTok{type =} \StringTok{"treemap"}\NormalTok{,}
+             \FunctionTok{hcaes}\NormalTok{(}
+               \AttributeTok{x =}\NormalTok{ state\_name,}
+               \AttributeTok{value =}\NormalTok{ persons\_injured\_2016,}
+               \AttributeTok{color =}\NormalTok{ persons\_injured\_2016}
+\NormalTok{             ))  }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_538}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_colorAxis}\NormalTok{(}\AttributeTok{minColor =} \StringTok{"\#0000FF"}\NormalTok{, }\AttributeTok{maxColor =} \StringTok{"\#008000"}\NormalTok{)}
+\NormalTok{    \}}
+\NormalTok{  \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_heatmap\_chart8 }\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{df3}\NormalTok{()}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name)}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)\{}
+      \FunctionTok{hchart}\NormalTok{(state.filter,}
+             \AttributeTok{type =} \StringTok{"treemap"}\NormalTok{,}
+             \FunctionTok{hcaes}\NormalTok{(}
+               \AttributeTok{x =}\NormalTok{ state\_name,}
+               \AttributeTok{value =}\NormalTok{ persons\_injured\_2017,}
+               \AttributeTok{color =}\NormalTok{ persons\_injured\_2017}
+\NormalTok{             ))  }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{hc\_add\_theme}\NormalTok{(}\FunctionTok{hc\_theme\_538}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_colorAxis}\NormalTok{(}\AttributeTok{minColor =} \StringTok{"\#FFFF00"}\NormalTok{, }\AttributeTok{maxColor =} \StringTok{"\#008000"}\NormalTok{)}
+\NormalTok{    \}}
+\NormalTok{  \})}
+  
+ 
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_line\_chart1 }\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}}\NormalTok{ state.filter[}\FunctionTok{order}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name), ]}
+    \FunctionTok{highchart}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{categories =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{state\_name) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"persons\_injured\_2014"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{persons\_injured\_2014,}
+                    \AttributeTok{color =} \StringTok{"green"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"persons\_injured\_2015"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{persons\_injured\_2015,}
+                    \AttributeTok{color =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"persons\_injured\_2016"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{persons\_injured\_2016,}
+                    \AttributeTok{color =} \StringTok{"blue"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"persons\_injured\_2017"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{persons\_injured\_2017,}
+                    \AttributeTok{color =} \StringTok{"blue"}\NormalTok{)}
+      
+\NormalTok{  \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_line\_chart2 }\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}}\NormalTok{ state.filter[}\FunctionTok{order}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name), ]}
+    \FunctionTok{highchart}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{categories =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{state\_name) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"persons\_killed\_2014"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{persons\_killed\_2014,}
+                    \AttributeTok{color =} \StringTok{"green"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"persons\_killed\_2015"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{persons\_killed\_2015,}
+                    \AttributeTok{color =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"persons\_killed\_2016"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{persons\_killed\_2016,}
+                    \AttributeTok{color =} \StringTok{"blue"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"persons\_killed\_2017"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{persons\_killed\_2017,}
+                    \AttributeTok{color =} \StringTok{"blue"}\NormalTok{)}
+    
+\NormalTok{  \})}
+  
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_line\_chart3 }\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}}\NormalTok{ state.filter[}\FunctionTok{order}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name), ]}
+    \FunctionTok{highchart}\NormalTok{()  }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{categories =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{state\_name) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"weather\_normal"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{weather\_normal,}
+                    \AttributeTok{color =} \StringTok{"green"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"weather\_mist\_fog"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{weather\_mist\_fog,}
+                    \AttributeTok{color =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"weather\_cloudy"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{weather\_cloudy,}
+                    \AttributeTok{color =} \StringTok{"blue"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"weather\_rain"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{weather\_rain,}
+                    \AttributeTok{color =} \StringTok{"yellow"}\NormalTok{)}
+\NormalTok{  \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_line\_chart4 }\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}}\NormalTok{ state.filter[}\FunctionTok{order}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name), ]}
+    \FunctionTok{highchart}\NormalTok{()  }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{categories =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{state\_name) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"weather\_flooding"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{weather\_flooding,}
+                    \AttributeTok{color =} \StringTok{"green"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"weather\_hail\_sleet"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{weather\_hail\_sleet,}
+                    \AttributeTok{color =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"weather\_snow"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{weather\_snow,}
+                    \AttributeTok{color =} \StringTok{"blue"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"weather\_dust\_storm"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{weather\_dust\_storm,}
+                    \AttributeTok{color =} \StringTok{"yellow"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"weather\_other\_extreme\_conditions"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{weather\_other\_extreme\_conditions,}
+                    \AttributeTok{color =} \StringTok{"black"}\NormalTok{)}
+\NormalTok{  \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_line\_chart5 }\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}}\NormalTok{ state.filter[}\FunctionTok{order}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name), ]}
+    \FunctionTok{highchart}\NormalTok{()  }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{categories =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{state\_name) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"road\_surfaced\_road\_acc"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{road\_surfaced\_road\_acc,}
+                    \AttributeTok{color =} \StringTok{"green"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"road\_metalled\_road\_acc"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{road\_metalled\_road\_acc,}
+                    \AttributeTok{color =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"road\_normalpucca\_road\_acc"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{road\_normalpucca\_road\_acc,}
+                    \AttributeTok{color =} \StringTok{"blue"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"road\_Kutcha\_road\_acc"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{road\_Kutcha\_road\_acc,}
+                    \AttributeTok{color =} \StringTok{"yellow"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"road\_dry\_road\_acc"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{road\_dry\_road\_acc,}
+                    \AttributeTok{color =} \StringTok{"black"}\NormalTok{)}
+\NormalTok{  \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_line\_chart6 }\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}}\NormalTok{ state.filter[}\FunctionTok{order}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name), ]}
+    \FunctionTok{highchart}\NormalTok{()  }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{categories =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{state\_name) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"road\_wet\_road\_acc"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{road\_wet\_road\_acc,}
+                    \AttributeTok{color =} \StringTok{"green"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"road\_goodsurface\_road\_acc"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{road\_goodsurface\_road\_acc,}
+                    \AttributeTok{color =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"road\_loosesurface\_road\_acc"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{road\_loosesurface\_road\_acc,}
+                    \AttributeTok{color =} \StringTok{"blue"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"road\_under\_repair\_road\_acc"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{road\_under\_repair\_road\_acc,}
+                    \AttributeTok{color =} \StringTok{"yellow"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"road\_corrugated\_road\_acc"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{road\_corrugated\_road\_acc,}
+                    \AttributeTok{color =} \StringTok{"black"}\NormalTok{)}
+\NormalTok{  \})}
+ 
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_line\_chart7 }\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}}\NormalTok{ state.filter[}\FunctionTok{order}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name), ]}
+    \FunctionTok{highchart}\NormalTok{()  }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{categories =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{state\_name) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"road\_slippery\_road\_acc"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{road\_slippery\_road\_acc,}
+                    \AttributeTok{color =} \StringTok{"green"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"road\_snowy\_road\_acc"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{road\_snowy\_road\_acc,}
+                    \AttributeTok{color =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"road\_muddy\_road\_acc"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{road\_muddy\_road\_acc,}
+                    \AttributeTok{color =} \StringTok{"blue"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"road\_oily\_road\_acc"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{road\_oily\_road\_acc,}
+                    \AttributeTok{color =} \StringTok{"yellow"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"road\_straight\_road\_acc"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{road\_straight\_road\_acc,}
+                    \AttributeTok{color =} \StringTok{"black"}\NormalTok{)}
+\NormalTok{  \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_line\_chart8 }\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}}\NormalTok{ state.filter[}\FunctionTok{order}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name), ]}
+    \FunctionTok{highchart}\NormalTok{()  }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{categories =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{state\_name) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"road\_slightcurve\_road\_acc"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{road\_slightcurve\_road\_acc,}
+                    \AttributeTok{color =} \StringTok{"green"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"road\_flat\_road\_acc"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{road\_flat\_road\_acc,}
+                    \AttributeTok{color =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"road\_gentleincline\_road\_acc"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{road\_gentleincline\_road\_acc,}
+                    \AttributeTok{color =} \StringTok{"blue"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"road\_hump\_road\_acc"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{road\_hump\_road\_acc,}
+                    \AttributeTok{color =} \StringTok{"yellow"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"road\_dip\_road\_acc"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{road\_dip\_road\_acc,}
+                    \AttributeTok{color =} \StringTok{"black"}\NormalTok{)}
+\NormalTok{  \})}
+  
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_line\_chart9 }\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}}\NormalTok{ state.filter[}\FunctionTok{order}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name), ]}
+    \FunctionTok{highchart}\NormalTok{()  }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{categories =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{state\_name) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"road\_pothole\_road\_acc"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{road\_pothole\_road\_acc,}
+                    \AttributeTok{color =} \StringTok{"green"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"road\_speedbreaker\_road\_acc"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{road\_speedbreaker\_road\_acc,}
+                    \AttributeTok{color =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"road\_steepincline\_road\_acc"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{road\_steepincline\_road\_acc,}
+                    \AttributeTok{color =} \StringTok{"blue"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"road\_sharpcurve\_road\_acc"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{road\_sharpcurve\_road\_acc,}
+                    \AttributeTok{color =} \StringTok{"yellow"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"road\_earthernshoulderedgedrop\_road\_acc"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{road\_earthernshoulderedgedrop\_road\_acc,}
+                    \AttributeTok{color =} \StringTok{"black"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"road\_other\_road\_acc"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{road\_other\_road\_acc,}
+                    \AttributeTok{color =} \StringTok{"black"}\NormalTok{)}
+\NormalTok{  \})}
+  
+  
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_line\_chart10 }\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}}\NormalTok{ state.filter[}\FunctionTok{order}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name), ]}
+    \FunctionTok{highchart}\NormalTok{()  }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{categories =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{state\_name) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"vehicle\_defect\_brakes"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{vehicle\_defect\_brakes,}
+                    \AttributeTok{color =} \StringTok{"green"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"vehicle\_defect\_steering"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{vehicle\_defect\_steering,}
+                    \AttributeTok{color =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"vehicle\_defect\_puncturedbursttyres"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{vehicle\_defect\_puncturedbursttyres,}
+                    \AttributeTok{color =} \StringTok{"blue"}\NormalTok{)}
+\NormalTok{  \})}
+  
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab4\_line\_chart11 }\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}} \FunctionTok{checkbox\_state\_filter}\NormalTok{()}
+\NormalTok{    state.filter }\OtherTok{\textless{}{-}}\NormalTok{ state.filter[}\FunctionTok{order}\NormalTok{(state.filter}\SpecialCharTok{$}\NormalTok{state\_name), ]}
+    \FunctionTok{highchart}\NormalTok{()  }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_xAxis}\NormalTok{(}\AttributeTok{categories =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{state\_name) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"vehicle\_defect\_baldtyres"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{vehicle\_defect\_baldtyres,}
+                    \AttributeTok{color =} \StringTok{"green"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"vehicle\_defect\_wornouttyres"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{vehicle\_defect\_wornouttyres,}
+                    \AttributeTok{color =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{hc\_add\_series}\NormalTok{(}\AttributeTok{name =} \StringTok{"vehicle\_defect\_othermechanical"}\NormalTok{,}
+                    \AttributeTok{data =}\NormalTok{ state.filter}\SpecialCharTok{$}\NormalTok{vehicle\_defect\_othermechanical,}
+                    \AttributeTok{color =} \StringTok{"blue"}\NormalTok{) }
+\NormalTok{  \})}
+  \DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#}
+  \CommentTok{\# TAB4 graphs and outputs{-} End}
+  \DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{value }\OtherTok{\textless{}{-}} \FunctionTok{renderPrint}\NormalTok{(\{ input}\SpecialCharTok{$}\NormalTok{select \})}
+  
+  
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{mymap }\OtherTok{\textless{}{-}} \FunctionTok{renderLeaflet}\NormalTok{(\{}
+    
+    
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{state)}\SpecialCharTok{==}\DecValTok{1}\NormalTok{)\{}
+\NormalTok{      df }\OtherTok{\textless{}{-}}\NormalTok{ road}
+      
+\NormalTok{    \}}
+    
+    \ControlFlowTok{if}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{selectMap }\SpecialCharTok{==} \StringTok{\textquotesingle{}p10\textquotesingle{}}\NormalTok{)}
+\NormalTok{    \{   }
+\NormalTok{      y }\OtherTok{\textless{}{-}}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{persons\_killed\_2014}
+\NormalTok{      content }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(}\StringTok{"\textless{}b\textgreater{}"}\NormalTok{,df}\SpecialCharTok{$}\NormalTok{state\_name,}\StringTok{"\textless{}/b\textgreater{}\textless{}/br\textgreater{}"}\NormalTok{,}\StringTok{"\textless{}b\textgreater{}Persons Killed in Road Accidents: 2014\textless{}/b\textgreater{}"}\NormalTok{,y)}
+\NormalTok{      radius }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{persons\_killed\_2014)}\SpecialCharTok{*}\DecValTok{800}
+\NormalTok{      pal }\OtherTok{\textless{}{-}} \FunctionTok{colorNumeric}\NormalTok{(}
+        \AttributeTok{palette =} \StringTok{"Dark2"}\NormalTok{,}
+        \AttributeTok{domain =}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{persons\_killed\_2014}
+\NormalTok{      )}
+\NormalTok{      stat }\OtherTok{\textless{}{-}} \StringTok{"Persons Killed in Road Accidents: 2014"}
+\NormalTok{    \}}
+    \ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{selectMap }\SpecialCharTok{==} \StringTok{\textquotesingle{}p11\textquotesingle{}}\NormalTok{)}
+\NormalTok{    \{       y }\OtherTok{\textless{}{-}}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{persons\_killed\_2015}
+\NormalTok{    content }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(}\StringTok{"\textless{}b\textgreater{}"}\NormalTok{,df}\SpecialCharTok{$}\NormalTok{state\_name,}\StringTok{"\textless{}/b\textgreater{}\textless{}/br\textgreater{}"}\NormalTok{,}\StringTok{"\textless{}b\textgreater{}Persons Killed in Road Accidents: 2015\textless{}/b\textgreater{}"}\NormalTok{,y)}
+\NormalTok{    radius }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{persons\_killed\_2015)}\SpecialCharTok{*}\DecValTok{800}
+\NormalTok{    pal }\OtherTok{\textless{}{-}} \FunctionTok{colorNumeric}\NormalTok{(}
+      \AttributeTok{palette =} \StringTok{"Dark2"}\NormalTok{,}
+      \AttributeTok{domain =}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{persons\_killed\_2015}
+\NormalTok{    )}
+\NormalTok{    stat }\OtherTok{\textless{}{-}} \StringTok{"Persons Killed in Road Accidents: 2015"}
+\NormalTok{    \}}
+    \ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{selectMap }\SpecialCharTok{==} \StringTok{\textquotesingle{}p12\textquotesingle{}}\NormalTok{)}
+\NormalTok{    \{       y }\OtherTok{\textless{}{-}}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{persons\_killed\_2016}
+\NormalTok{    content }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(}\StringTok{"\textless{}b\textgreater{}"}\NormalTok{,df}\SpecialCharTok{$}\NormalTok{state\_name,}\StringTok{"\textless{}/b\textgreater{}\textless{}/br\textgreater{}"}\NormalTok{,}\StringTok{"\textless{}b\textgreater{}Persons Killed in Road Accidents: 2016\textless{}/b\textgreater{}"}\NormalTok{,y)}
+\NormalTok{    radius }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{persons\_killed\_2016)}\SpecialCharTok{*}\DecValTok{800}
+\NormalTok{    pal }\OtherTok{\textless{}{-}} \FunctionTok{colorNumeric}\NormalTok{(}
+      \AttributeTok{palette =} \StringTok{"Dark2"}\NormalTok{,}
+      \AttributeTok{domain =}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{persons\_killed\_2015}
+\NormalTok{    )}
+\NormalTok{    stat }\OtherTok{\textless{}{-}} \StringTok{"Persons Killed in Road Accidents: 2016"}
+\NormalTok{    \}}
+    \ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{selectMap }\SpecialCharTok{==} \StringTok{\textquotesingle{}p13\textquotesingle{}}\NormalTok{)}
+\NormalTok{    \{       y }\OtherTok{\textless{}{-}}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{persons\_killed\_2017}
+\NormalTok{    content }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(}\StringTok{"\textless{}b\textgreater{}"}\NormalTok{,df}\SpecialCharTok{$}\NormalTok{state\_name,}\StringTok{"\textless{}/b\textgreater{}\textless{}/br\textgreater{}"}\NormalTok{,}\StringTok{"\textless{}b\textgreater{}Persons Killed in Road Accidents: 2017\textless{}/b\textgreater{}"}\NormalTok{,y)}
+\NormalTok{    radius }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{persons\_killed\_2017)}\SpecialCharTok{*}\DecValTok{800}
+\NormalTok{    pal }\OtherTok{\textless{}{-}} \FunctionTok{colorNumeric}\NormalTok{(}
+      \AttributeTok{palette =} \StringTok{"Dark2"}\NormalTok{,}
+      \AttributeTok{domain =}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{persons\_killed\_2017}
+\NormalTok{    )}
+\NormalTok{    stat }\OtherTok{\textless{}{-}} \StringTok{"Persons Killed in Road Accidents: 2017"}
+\NormalTok{    \}}
+    \ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{selectMap }\SpecialCharTok{==} \StringTok{\textquotesingle{}p14\textquotesingle{}}\NormalTok{)}
+\NormalTok{    \{       y }\OtherTok{\textless{}{-}}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{persons\_injured\_2014}
+\NormalTok{    content }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(}\StringTok{"\textless{}b\textgreater{}"}\NormalTok{,df}\SpecialCharTok{$}\NormalTok{state\_name,}\StringTok{"\textless{}/b\textgreater{}\textless{}/br\textgreater{}"}\NormalTok{,}\StringTok{"\textless{}b\textgreater{}Persons Injured in Road Accidents: 2014\textless{}/b\textgreater{}"}\NormalTok{,y)}
+\NormalTok{    radius }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{persons\_injured\_2014)}\SpecialCharTok{*}\DecValTok{800}
+\NormalTok{    pal }\OtherTok{\textless{}{-}} \FunctionTok{colorNumeric}\NormalTok{(}
+      \AttributeTok{palette =} \StringTok{"Dark2"}\NormalTok{,}
+      \AttributeTok{domain =}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{persons\_injured\_2014}
+\NormalTok{    )}
+\NormalTok{    stat }\OtherTok{\textless{}{-}} \StringTok{"Persons Injured in Road Accidents: 2014"}
+\NormalTok{    \}}
+    \ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{selectMap }\SpecialCharTok{==} \StringTok{\textquotesingle{}p15\textquotesingle{}}\NormalTok{)}
+\NormalTok{    \{       y }\OtherTok{\textless{}{-}}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{persons\_injured\_2015}
+\NormalTok{    content }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(}\StringTok{"\textless{}b\textgreater{}"}\NormalTok{,df}\SpecialCharTok{$}\NormalTok{state\_name,}\StringTok{"\textless{}/b\textgreater{}\textless{}/br\textgreater{}"}\NormalTok{,}\StringTok{"\textless{}b\textgreater{}Persons Injured in Road Accidents: 2015\textless{}/b\textgreater{}"}\NormalTok{,y)}
+\NormalTok{    radius }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{persons\_injured\_2015)}\SpecialCharTok{*}\DecValTok{800}
+\NormalTok{    pal }\OtherTok{\textless{}{-}} \FunctionTok{colorNumeric}\NormalTok{(}
+      \AttributeTok{palette =} \StringTok{"Dark2"}\NormalTok{,}
+      \AttributeTok{domain =}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{persons\_injured\_2015}
+\NormalTok{    )}
+\NormalTok{    stat }\OtherTok{\textless{}{-}} \StringTok{"Persons Injured in Road Accidents: 2015"}
+\NormalTok{    \}}
+    \ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{selectMap }\SpecialCharTok{==} \StringTok{\textquotesingle{}p16\textquotesingle{}}\NormalTok{)}
+\NormalTok{    \{       y }\OtherTok{\textless{}{-}}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{persons\_injured\_2016}
+\NormalTok{    content }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(}\StringTok{"\textless{}b\textgreater{}"}\NormalTok{,df}\SpecialCharTok{$}\NormalTok{state\_name,}\StringTok{"\textless{}/b\textgreater{}\textless{}/br\textgreater{}"}\NormalTok{,}\StringTok{"\textless{}b\textgreater{}Persons Injured in Road Accidents: 2016\textless{}/b\textgreater{}"}\NormalTok{,y)}
+\NormalTok{    radius }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{persons\_injured\_2016)}\SpecialCharTok{*}\DecValTok{800}
+\NormalTok{    pal }\OtherTok{\textless{}{-}} \FunctionTok{colorNumeric}\NormalTok{(}
+      \AttributeTok{palette =} \StringTok{"Dark2"}\NormalTok{,}
+      \AttributeTok{domain =}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{persons\_injured\_2016}
+\NormalTok{    )}
+\NormalTok{    stat }\OtherTok{\textless{}{-}} \StringTok{"Persons Injured in Road Accidents: 2016"}
+\NormalTok{    \}}
+    \ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{selectMap }\SpecialCharTok{==} \StringTok{\textquotesingle{}p17\textquotesingle{}}\NormalTok{)}
+\NormalTok{    \{       y }\OtherTok{\textless{}{-}}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{persons\_injured\_2017}
+\NormalTok{    content }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(}\StringTok{"\textless{}b\textgreater{}"}\NormalTok{,df}\SpecialCharTok{$}\NormalTok{state\_name,}\StringTok{"\textless{}/b\textgreater{}\textless{}/br\textgreater{}"}\NormalTok{,}\StringTok{"\textless{}b\textgreater{}Persons Injured in Road Accidents: 2017\textless{}/b\textgreater{}"}\NormalTok{,y)}
+\NormalTok{    radius }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{persons\_injured\_2017)}\SpecialCharTok{*}\DecValTok{800}
+\NormalTok{    pal }\OtherTok{\textless{}{-}} \FunctionTok{colorNumeric}\NormalTok{(}
+      \AttributeTok{palette =} \StringTok{"Dark2"}\NormalTok{,}
+      \AttributeTok{domain =}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{persons\_injured\_2017}
+\NormalTok{    )}
+\NormalTok{    stat }\OtherTok{\textless{}{-}} \StringTok{"Persons Injured in Road Accidents: 2017"}
+\NormalTok{    \}}
+    
+    
+    
+    
+\NormalTok{    m }\OtherTok{\textless{}{-}} \FunctionTok{leaflet}\NormalTok{(}\AttributeTok{data =}\NormalTok{df ,}\AttributeTok{height =} \DecValTok{400}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}\FunctionTok{setView}\NormalTok{(}\AttributeTok{lng=} \FloatTok{78.0419}\NormalTok{,}\AttributeTok{lat =} \FloatTok{17.1750}\NormalTok{,}\AttributeTok{zoom=}\DecValTok{5}\NormalTok{)}\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{addTiles}\NormalTok{()}\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{addCircles}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{lng,}\SpecialCharTok{\textasciitilde{}}\NormalTok{lat,}\AttributeTok{weight =}\DecValTok{1}\NormalTok{,}\AttributeTok{radius =}\NormalTok{ radius,}\AttributeTok{color=}\FunctionTok{pal}\NormalTok{(y),}\AttributeTok{popup=}\NormalTok{content)}\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{addLegend}\NormalTok{(}\AttributeTok{pal =}\NormalTok{pal,}\AttributeTok{values =}\NormalTok{ y,}\AttributeTok{title =}\NormalTok{stat , }\AttributeTok{opacity =}\DecValTok{1}\NormalTok{,}\AttributeTok{position=}\StringTok{"bottomright"}\NormalTok{)}
+    
+    
+\NormalTok{    m}
+\NormalTok{  \})}
+  
+  
+  \DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#}
+  \CommentTok{\#    TAB 5{-} Statewise distribution Map  \#}
+  \DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{tab2\_bubble\_map }\OtherTok{\textless{}{-}} \FunctionTok{renderHighchart}\NormalTok{(\{}
+    \ControlFlowTok{if}\NormalTok{ (input}\SpecialCharTok{$}\NormalTok{map.type.filter }\SpecialCharTok{==} \StringTok{"all\_view"}\NormalTok{) \{}
+\NormalTok{      hc }\OtherTok{\textless{}{-}}
+        \FunctionTok{hcmap}\NormalTok{(}
+          \StringTok{"countries/in/custom/in{-}all{-}andaman{-}and{-}nicobar"}\NormalTok{,}
+          \AttributeTok{data =}\NormalTok{ states\_dataset.merge,}
+          \AttributeTok{value =}\NormalTok{ input}\SpecialCharTok{$}\NormalTok{attribute.filters,}
+          \AttributeTok{joinBy =} \FunctionTok{c}\NormalTok{(}\StringTok{"hc{-}a2"}\NormalTok{, }\StringTok{"hc{-}a2"}\NormalTok{),}
+          \AttributeTok{name =}\NormalTok{ input}\SpecialCharTok{$}\NormalTok{attribute.filters,}
+          \AttributeTok{dataLabels =} \FunctionTok{list}\NormalTok{(}\AttributeTok{enabled =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{format =} \StringTok{"\{point.name\}"}\NormalTok{),}
+          \AttributeTok{borderColor =} \StringTok{"\#FAFAFA"}\NormalTok{,}
+          \AttributeTok{borderWidth =} \FloatTok{0.1}\NormalTok{,}
+          \AttributeTok{tooltip =} \FunctionTok{list}\NormalTok{(}\AttributeTok{valueDecimals =} \DecValTok{2}\NormalTok{)}
+\NormalTok{        ) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{hc\_colorAxis}\NormalTok{(}\AttributeTok{minColor =} \StringTok{"blue"}\NormalTok{,}
+                           \AttributeTok{maxColor =} \StringTok{"red"}\NormalTok{,}
+                           \AttributeTok{stops =} \FunctionTok{color\_stops}\NormalTok{(}\AttributeTok{n =} \DecValTok{5}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}\FunctionTok{hc\_mapNavigation}\NormalTok{(}\AttributeTok{enabled =} \ConstantTok{TRUE}\NormalTok{)}
+      
+\NormalTok{      hc}
+      
+      
+      
+\NormalTok{    \} }
+    \ControlFlowTok{else}\NormalTok{\{}
+      \ControlFlowTok{if}\NormalTok{ (input}\SpecialCharTok{$}\NormalTok{attribute.filters }\SpecialCharTok{==} \StringTok{"persons\_injured\_2014"}\NormalTok{) \{}
+\NormalTok{        top.states}\OtherTok{\textless{}{-}}\NormalTok{ state\_group }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(persons\_injured\_2014))}
+\NormalTok{        top.states}\FloatTok{.20}\OtherTok{\textless{}{-}}\NormalTok{ top.states[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{20}\NormalTok{, ]}
+\NormalTok{        sel\_attr }\OtherTok{\textless{}{-}}\NormalTok{ top.states}\FloatTok{.20}\SpecialCharTok{$}\NormalTok{persons\_injured\_2014}
+\NormalTok{      \}}\ControlFlowTok{else}\NormalTok{\{}
+\NormalTok{        top.states }\OtherTok{\textless{}{-}}\NormalTok{ state\_group  }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\FunctionTok{desc}\NormalTok{(persons\_injured\_2014))}
+\NormalTok{        top.states}\FloatTok{.20} \OtherTok{\textless{}{-}}\NormalTok{ top.states[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{20}\NormalTok{, ]}
+\NormalTok{        sel\_attr }\OtherTok{\textless{}{-}}\NormalTok{ top.states}\FloatTok{.20}\SpecialCharTok{$}\NormalTok{persons\_injured\_2014}
+\NormalTok{      \}  }
+                          
+      
+\NormalTok{      cities\_20 }\OtherTok{\textless{}{-}} \FunctionTok{data\_frame}\NormalTok{(}
+        \AttributeTok{name=}\NormalTok{ top.states}\FloatTok{.20}\SpecialCharTok{$}\NormalTok{state\_name,}
+        \AttributeTok{lat =}\NormalTok{ top.states}\FloatTok{.20}\SpecialCharTok{$}\NormalTok{lat,}
+        \AttributeTok{lng =}\NormalTok{ top.states}\FloatTok{.20}\SpecialCharTok{$}\NormalTok{lng,}
+        \AttributeTok{z =}\NormalTok{ sel\_attr,}
+        \AttributeTok{color =} \FunctionTok{colorize}\NormalTok{(z)}
+\NormalTok{      )}
+      
+      \FunctionTok{hcmap}\NormalTok{(}
+        \StringTok{"countries/in/custom/in{-}all{-}andaman{-}and{-}nicobar"}\NormalTok{,}
+        \AttributeTok{showInLegend =} \ConstantTok{FALSE}\NormalTok{,}
+        \AttributeTok{borderColor =} \StringTok{"black"}\NormalTok{,}
+        \AttributeTok{borderWidth =} \DecValTok{1}
+\NormalTok{      ) }\SpecialCharTok{\%\textgreater{}\%}
+        \FunctionTok{hc\_add\_series}\NormalTok{(}
+          \AttributeTok{data =}\NormalTok{ cities\_20,}
+          \AttributeTok{type =} \StringTok{"mapbubble"}\NormalTok{,}
+          \AttributeTok{name =} \StringTok{"States"}\NormalTok{,}
+          \AttributeTok{maxSize =} \StringTok{\textquotesingle{}10\%\textquotesingle{}}\NormalTok{,}
+          \AttributeTok{dataLabels =} \FunctionTok{list}\NormalTok{(}\AttributeTok{enabled =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{format =} \StringTok{\textquotesingle{}\{point.name\}\textquotesingle{}}\NormalTok{),}
+          \AttributeTok{showInLegend =} \ConstantTok{FALSE}
+\NormalTok{        )}
+\NormalTok{    \}}
+\NormalTok{  \})}
+  
+  \DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#}
+  \CommentTok{\#       TAB5 State{-}wise Map {-} }\RegionMarkerTok{END}\CommentTok{     \#}
+  \DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#}
+  
+  
+  \DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#}
+  \CommentTok{\#       TAB6 PREDICTION {-} Start       \#}
+  \DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\# }
+  
+  
+  
+  
+\NormalTok{  df\_choice }\OtherTok{\textless{}{-}} \FunctionTok{reactive}\NormalTok{(\{}
+\NormalTok{    state }\OtherTok{\textless{}{-}}\NormalTok{ input}\SpecialCharTok{$}\NormalTok{tab5\_dropdown\_states}
+\NormalTok{    choice }\OtherTok{\textless{}{-}}\NormalTok{ input}\SpecialCharTok{$}\NormalTok{choice.checkbox.filter}
+    \ControlFlowTok{if}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is\_null}\NormalTok{(choice)) \{}
+\NormalTok{      choices\_col }\OtherTok{\textless{}{-}} \FunctionTok{append}\NormalTok{(choices\_col, choice)}
+\NormalTok{    \}}
+    \FunctionTok{set.seed}\NormalTok{(}\DecValTok{635}\NormalTok{)}
+\NormalTok{    train\_split }\OtherTok{\textless{}{-}} \FunctionTok{createDataPartition}\NormalTok{(data\_pred}\SpecialCharTok{$}\NormalTok{Defective.brakes, }\AttributeTok{p =} \FloatTok{0.80}\NormalTok{, }\AttributeTok{list =} \ConstantTok{FALSE}\NormalTok{)}
+\NormalTok{    train\_data }\OtherTok{\textless{}{-}}\NormalTok{ data\_pred[train\_split,]}
+\NormalTok{    test\_data }\OtherTok{\textless{}{-}}\NormalTok{ data\_pred[}\SpecialCharTok{{-}}\NormalTok{train\_split,]}
+    
+\NormalTok{    randomForest\_model }\OtherTok{\textless{}{-}} \FunctionTok{randomForest}\NormalTok{(Defective.brakes}\SpecialCharTok{\textasciitilde{}}\NormalTok{., }\AttributeTok{data=}\NormalTok{train\_data, }\AttributeTok{mtry=}\FunctionTok{sqrt}\NormalTok{(}\DecValTok{12}\NormalTok{))}
+    
+\NormalTok{    Control\_randomforest }\OtherTok{\textless{}{-}} \FunctionTok{trainControl}\NormalTok{(}\AttributeTok{method=}\StringTok{"repeatedcv"}\NormalTok{, }\AttributeTok{number=}\DecValTok{10}\NormalTok{, }\AttributeTok{repeats =} \DecValTok{10}\NormalTok{) }
+    
+\NormalTok{    fd }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(data\_pred, state\_code }\SpecialCharTok{==}\NormalTok{ state)}
+\NormalTok{    state\_name }\OtherTok{\textless{}{-}}\NormalTok{ fd}\SpecialCharTok{$}\NormalTok{State..UT}
+    
+\NormalTok{    weather }\OtherTok{=}\NormalTok{ (res }\OtherTok{\textless{}{-}} \FunctionTok{get\_current}\NormalTok{(state\_name, }\AttributeTok{units =} \StringTok{"metric"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{owmr\_as\_tibble}\NormalTok{())}
+\NormalTok{    weather\_id }\OtherTok{\textless{}{-}}\NormalTok{ weather}\SpecialCharTok{$}\NormalTok{weather\_id}
+    \ControlFlowTok{if}\NormalTok{(weather\_id}\SpecialCharTok{\textgreater{}=}\DecValTok{200} \SpecialCharTok{\&}\NormalTok{ weather\_id}\SpecialCharTok{\textless{}=}\DecValTok{232}\NormalTok{)}
+\NormalTok{    \{}
+\NormalTok{      weather\_severity }\OtherTok{=} \DecValTok{7}\NormalTok{;}
+\NormalTok{    \}}
+    \ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{(weather\_id}\SpecialCharTok{\textgreater{}=}\DecValTok{300} \SpecialCharTok{\&}\NormalTok{ weather\_id}\SpecialCharTok{\textless{}=}\DecValTok{321}\NormalTok{)}
+\NormalTok{    \{}
+\NormalTok{      weather\_severity }\OtherTok{=} \DecValTok{3}\NormalTok{;}
+\NormalTok{    \}}
+    \ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{(weather\_id}\SpecialCharTok{\textgreater{}=}\DecValTok{500} \SpecialCharTok{\&}\NormalTok{ weather\_id}\SpecialCharTok{\textless{}=}\DecValTok{531}\NormalTok{)}
+\NormalTok{    \{}
+\NormalTok{      weather\_severity }\OtherTok{=} \DecValTok{4}\NormalTok{;}
+\NormalTok{    \}}
+    \ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{(weather\_id}\SpecialCharTok{\textgreater{}=}\DecValTok{600} \SpecialCharTok{\&}\NormalTok{ weather\_id}\SpecialCharTok{\textless{}=}\DecValTok{622}\NormalTok{)}
+\NormalTok{    \{}
+\NormalTok{      weather\_severity }\OtherTok{=} \DecValTok{5}\NormalTok{;}
+\NormalTok{    \}}
+    \ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{(weather\_id}\SpecialCharTok{==}\DecValTok{731}\NormalTok{) }
+\NormalTok{    \{}
+\NormalTok{      weather\_severity }\OtherTok{=} \DecValTok{2}\NormalTok{;}
+\NormalTok{    \}}
+    \ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{(weather\_id}\SpecialCharTok{==}\DecValTok{741}\NormalTok{) }
+\NormalTok{    \{}
+\NormalTok{      weather\_severity }\OtherTok{=} \DecValTok{5}\NormalTok{;}
+\NormalTok{    \}}
+    \ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{(weather\_id}\SpecialCharTok{\textgreater{}=}\DecValTok{800} \SpecialCharTok{\&}\NormalTok{ weather\_id}\SpecialCharTok{\textless{}=}\DecValTok{804}\NormalTok{) }
+\NormalTok{    \{}
+\NormalTok{      weather\_severity }\OtherTok{=} \DecValTok{1}\NormalTok{;}
+\NormalTok{    \}}
+    \ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{(weather\_id}\SpecialCharTok{\textgreater{}=}\DecValTok{700} \SpecialCharTok{\&}\NormalTok{ weather\_id}\SpecialCharTok{\textless{}}\DecValTok{800}\NormalTok{) }
+\NormalTok{    \{}
+\NormalTok{      weather\_severity }\OtherTok{=} \DecValTok{3}\NormalTok{;}
+\NormalTok{    \}}
+\NormalTok{    input\_choices }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Defective.brakes"}\NormalTok{, }\StringTok{"Defective.Steering"}\NormalTok{, }\StringTok{"Punctured.burst.Tyres"}\NormalTok{,}\StringTok{"Bald.Tyres"}\NormalTok{, }\StringTok{"Other.serious.mechanical.defect"}\NormalTok{, }\StringTok{"Metalled.Roads"}\NormalTok{, }\StringTok{"Pucca.road..Normal.Road."}\NormalTok{, }\StringTok{"Kutcha.Roads"}\NormalTok{, }\StringTok{"Loose.Surface"}\NormalTok{, }\StringTok{"Road.under.repair.construction"}\NormalTok{, }\StringTok{"Corrugated.Wavy.road"}\NormalTok{, }\StringTok{"Snowy"}\NormalTok{, }\StringTok{"Muddy"}\NormalTok{, }\StringTok{"Slight.Curve"}\NormalTok{, }\StringTok{"Flat.Road"}\NormalTok{, }\StringTok{"Gentle.Incline"}\NormalTok{, }\StringTok{"Pot.Holes"}\NormalTok{, }\StringTok{"Speed.Breaker"}\NormalTok{, }\StringTok{"Steep.Incline"}\NormalTok{, }\StringTok{"Sharp.Curve"}\NormalTok{, }\StringTok{"Others.road.conditions"}\NormalTok{)}
+    
+\NormalTok{    check\_list }\OtherTok{=} \FunctionTok{vector}\NormalTok{(}\StringTok{"logical"}\NormalTok{, }\DecValTok{21}\NormalTok{)}
+    \ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in}\NormalTok{ choices\_col) \{}
+\NormalTok{      index }\OtherTok{\textless{}{-}} \FunctionTok{which}\NormalTok{(input\_choices }\SpecialCharTok{==}\NormalTok{ i)}
+\NormalTok{      check\_list[index] }\OtherTok{=} \ConstantTok{TRUE}\NormalTok{;}
+\NormalTok{    \}}
+\NormalTok{    state\_data }\OtherTok{=} \FunctionTok{subset}\NormalTok{(data\_pred, state\_code }\SpecialCharTok{==}\NormalTok{ state)}
+\NormalTok{    total }\OtherTok{=}\NormalTok{ weather\_severity}
+\NormalTok{    count }\OtherTok{=} \DecValTok{1}
+    \ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \FunctionTok{seq}\NormalTok{(}\DecValTok{3}\SpecialCharTok{:}\DecValTok{21}\NormalTok{))}
+\NormalTok{    \{}
+      \ControlFlowTok{if}\NormalTok{(check\_list[i]}\SpecialCharTok{==}\ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{      \{}
+\NormalTok{        total}\OtherTok{=}\NormalTok{ total }\SpecialCharTok{+}\NormalTok{ state\_data[,i]}
+\NormalTok{        count}\OtherTok{=}\NormalTok{ count}\SpecialCharTok{+}\DecValTok{1}
+\NormalTok{      \}}
+\NormalTok{    \}}
+\NormalTok{    final\_val }\OtherTok{=} \FunctionTok{ceiling}\NormalTok{(total}\SpecialCharTok{/}\NormalTok{count)}
+\NormalTok{    ans }\OtherTok{\textless{}{-}} \ConstantTok{NULL}
+    \ControlFlowTok{if}\NormalTok{(final\_val }\SpecialCharTok{==} \DecValTok{1}\NormalTok{) \{}
+\NormalTok{      ans }\OtherTok{\textless{}{-}} \StringTok{"Very low risk"}
+\NormalTok{    \}}
+    \ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{(final\_val }\SpecialCharTok{==} \DecValTok{2}\NormalTok{) \{}
+\NormalTok{      ans}\OtherTok{\textless{}{-}} \StringTok{"Low risk"}
+\NormalTok{    \}}
+    \ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{(final\_val }\SpecialCharTok{==} \DecValTok{3}\NormalTok{) \{}
+\NormalTok{      ans}\OtherTok{\textless{}{-}} \StringTok{"Low to Moderate risk"}
+\NormalTok{    \}}
+    \ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{(final\_val }\SpecialCharTok{==} \DecValTok{4}\NormalTok{) \{}
+\NormalTok{      ans}\OtherTok{\textless{}{-}} \StringTok{"Moderate risk"}
+\NormalTok{    \}}
+    \ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{(final\_val }\SpecialCharTok{==} \DecValTok{5}\NormalTok{) \{}
+\NormalTok{      ans}\OtherTok{\textless{}{-}} \StringTok{"Moderate to High risk"}
+\NormalTok{    \}}
+    \ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{(final\_val }\SpecialCharTok{==} \DecValTok{6}\NormalTok{) \{}
+\NormalTok{      ans}\OtherTok{\textless{}{-}} \StringTok{"High risk"}
+\NormalTok{    \}}
+    \ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{(final\_val }\SpecialCharTok{==} \DecValTok{7}\NormalTok{) \{}
+\NormalTok{      ans}\OtherTok{\textless{}{-}} \StringTok{"Very high risk"}
+\NormalTok{    \}}
+\NormalTok{    ans}
+\NormalTok{  \})}
+  
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{prediction }\OtherTok{\textless{}{-}} \FunctionTok{renderText}\NormalTok{(\{}
+    \FunctionTok{df\_choice}\NormalTok{()}
+\NormalTok{  \})}
+  
+  \DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#}
+  \CommentTok{\# TAB6 PREDICTION {-} }\RegionMarkerTok{END}\CommentTok{               \#}
+  \DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#}
+  
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+
+\end{document}
